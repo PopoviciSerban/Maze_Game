@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Labirint
 {
@@ -17,7 +18,7 @@ namespace Labirint
             InitializeComponent();
         }
 
-        string[] lines = System.IO.File.ReadAllLines(@"C:\Users\serba\Documents\Visual Studio 2015\Projects\Labirint\Labirint\Labirint1.txt");
+        string[] lines = File.ReadAllLines(Path.GetFullPath("Labirint1.txt"));
         int i = 0, j, lungime, latime, lin = 0, col = 0, x, y, xurmator, yurmator, nmax, mmax, my_x, my_y, x_win, y_win;
 
         int[] dx = new int[] { 0, 1, 0, -1 };
@@ -138,9 +139,6 @@ namespace Labirint
 
         private void Form2_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
-                timer1.Enabled = true;
-
             if (e.KeyCode == Keys.Up && my_x - 1 >= 0)
                 if (mv[my_x - 1, my_y] == 0 || mv[my_x - 1, my_y] == 4)
                     movement(-1, 0);

@@ -83,6 +83,16 @@ namespace Labirint.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap PX2S__Logo_Square_800px {
+            get {
+                object obj = ResourceManager.GetObject("PX2S__Logo_Square_800px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap try_again_png_4 {
             get {
                 object obj = ResourceManager.GetObject("try-again-png-4", resourceCulture);

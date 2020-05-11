@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Labirint
 {
@@ -17,13 +18,14 @@ namespace Labirint
             InitializeComponent();
         }
 
-        string[] lines = System.IO.File.ReadAllLines(@"C:\Users\serba\Documents\Visual Studio 2015\Projects\Labirint\Labirint\Labirint.txt");
+        string[] lines = File.ReadAllLines(Path.GetFullPath("Labirint.txt"));
         int i = 0, j, lungime, latime, lin = 0, col = 0, x, y, xurmator, yurmator, nmax, mmax, my_x, my_y, x_win, y_win;
 
         int[] dx = new int[] { 0, 1, 0, -1 };
         int[] dy = new int[] { 1, 0, -1, 0 };
         int[,] mv = new int[1000, 1000];
-        int[] frecv = new int[] { 0, 0, 0, 0 }; 
+        int[] frecv = new int[] { 0, 0, 0, 0 };
+        bool start = false;
 
         Graphics grp;
         Bitmap bmp;
@@ -33,32 +35,35 @@ namespace Labirint
 
         public void movement(int dir_x, int dir_y)
         {
-            SolidBrush whiteBrush = new SolidBrush(Color.White);
-            grp.FillRectangle(whiteBrush, my_y * lungime, my_x * latime, lungime, latime);
-
-            mv[my_x, my_y] = 0; 
-
-            SolidBrush greenBrush = new SolidBrush(Color.Green);
-            grp.FillRectangle(greenBrush, (my_y + dir_y) * lungime, (my_x + dir_x) * latime, lungime, latime);
-
-            Global.Score = Global.Score + 1;
-            label2.Text = Global.Score.ToString();
-
-            if (mv[my_x + dir_x, my_y + dir_y] == 4)
+            if (start)
             {
+                SolidBrush whiteBrush = new SolidBrush(Color.White);
+                grp.FillRectangle(whiteBrush, my_y * lungime, my_x * latime, lungime, latime);
+
+                mv[my_x, my_y] = 0;
+
+                SolidBrush greenBrush = new SolidBrush(Color.Green);
+                grp.FillRectangle(greenBrush, (my_y + dir_y) * lungime, (my_x + dir_x) * latime, lungime, latime);
+
+                Global.Score = Global.Score + 1;
+                label2.Text = Global.Score.ToString();
+
+                if (mv[my_x + dir_x, my_y + dir_y] == 4)
+                {
+                    mv[my_x + dir_x, my_y + dir_y] = 3;
+                    pictureBox1.Image = bmp;
+                    timer1.Enabled = false;
+
+                    Form f = new Form2();
+                    f.Show();
+                    this.Hide();
+                }
+
                 mv[my_x + dir_x, my_y + dir_y] = 3;
-                pictureBox1.Image = bmp;
-                timer1.Enabled = false;
 
-                Form f = new Form2();
-                f.Show();
-                this.Hide();
+                my_x += dir_x;
+                my_y += dir_y;
             }
-
-            mv[my_x + dir_x, my_y + dir_y] = 3;
-
-            my_x += dir_x;
-            my_y += dir_y;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -136,8 +141,12 @@ namespace Labirint
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.X)
+            {
+                pictureBox2.Visible = false;
                 timer1.Enabled = true;
+                start = true;
+            }
 
             if (e.KeyCode == Keys.Up && my_x - 1 >= 0)
                 if (mv[my_x - 1, my_y] == 0 || mv[my_x - 1, my_y] == 4)

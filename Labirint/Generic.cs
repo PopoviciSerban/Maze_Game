@@ -29,6 +29,13 @@ namespace Labirint
             this.Hide();
             Application.Exit();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Form f = new About();
+            f.Show();
+            this.Hide();
+        }
     }
 
     public static class Global
